@@ -14,60 +14,12 @@
   max-width: 100%;
   position: relative;
   margin: 0 auto;
-
-  &:before {
-    width: 109px;
-    visibility: hidden;
-    opacity: 0;
-    left: 0;
-    border-radius: inherit;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-    position: absolute;
-    content: '';
-    top: 0;
-    height: 100%;
-    background: inherit;
-    z-index: 0;
-  }
-
-  &:after {
-    width: 3000px !important;
-    transform: translateX(96%) !important;
-    border-radius: 0;
-    right: 0;
-    position: absolute;
-    content: '';
-    top: 0;
-    height: 100%;
-    background: inherit;
-    z-index: 0;
-  }
 }
 
 .elements {
   display: table;
   width: 100%;
   position: relative;
-
-  &:before {
-    content: '\0020';
-    display: block;
-    overflow: hidden;
-    visibility: hidden;
-    width: 0;
-    height: 0;
-  }
-
-  &:after {
-    clear: both;
-    content: '\0020';
-    display: block;
-    overflow: hidden;
-    visibility: hidden;
-    width: 0;
-    height: 0;
-  }
 
   .element-right {
     position: relative;
@@ -175,6 +127,7 @@
 
   .row {
     font-family: $font-name;
+    margin-left: 0;
     margin-top: 0px;
     margin-bottom: -35px;
   }
@@ -183,37 +136,6 @@
     background-color: #79a342;
     justify-content: flex-end;
     align-items: center;
-
-
-    &::before {
-      width: 160px !important;
-      transform: none;
-      transform: translateX(-96%) !important;
-      border-radius: 0;
-      left: 0;
-      position: absolute;
-      content: '';
-      top: 0;
-      height: 100%;
-      background: inherit;
-      z-index: 0;
-
-    }
-
-    &::after {
-      width: 109px;
-      transform: translateX(40%) skewX(45deg);
-      left: 680px;
-      border-radius: inherit;
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
-      position: absolute;
-      content: '';
-      top: 0;
-      height: 100%;
-      background: inherit;
-      z-index: 0;
-    }
 
     .navnar {
       margin: 10px 6px;
@@ -313,5 +235,23 @@
         font-weight: bold;
       }
     }
+
+    .left-head{
+      flex-grow:1;
+      width:100px;
+      height:80px;
+      background-color:$my-favorite-color;
+    }
+
+    .left-tail{
+      transform:skew(45deg);
+      width:100px;
+      height:80px;
+      margin-right:-50px;
+      background-color:$my-favorite-color;
+    }
+  }
+  .img-customers{
+    overflow: hidden;
   }
 }
