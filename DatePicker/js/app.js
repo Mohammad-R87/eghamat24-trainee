@@ -9,7 +9,7 @@ class DatePicker {
         let template = `
             <div class="sp-cal-title">
             <a><i class="fa-solid fa-angles-right"></i></a>
-                <a><i class="fa-solid fa-angle-right"></i></a>
+            <a><i class="fa-solid fa-angle-right"></i></a>
             <span class="cal-caption"></span>
             <a><i class="fa-solid fa-angle-left"></i></a>
             <a><i class="fa-solid fa-angles-left"></i></a>
@@ -25,16 +25,15 @@ class DatePicker {
             </div>
             <div class="sp-cal-days"></div>
            `;
-
         this.calernder.innerHTML = template;
         this.daysDiv = this.calernder.getElementsByClassName('sp-cal-days')[0];
         this.daysList = [];
         this.isCalenderVisible = false;
-        let date = new Date();
-        let jalali = gregorian_to_jalali(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-        this.today = jalali[2];
-        this.month = jalali[1];
-        this.year = jalali[0];
+        moment.locale('fa');
+        let date = new moment();
+        this.today = date.date();
+        this.month = date.month();
+        this.year = date.year();
         this.markedDay = 0;
         this.markedMonth = 0;
         this.markedYear = 0;
@@ -120,10 +119,16 @@ class DatePicker {
         let cap = this.calernder.getElementsByClassName('cal-caption')[0];
         let months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
         cap.innerText = `${months[this.month]}, ${this.year}`
-        let today = new Date();
-        let nDays = new Date(this.year, this.month + 1, 0).getDate();
-        console.log(nDays);
-        let startDay = this.today;
+        let today = new moment();
+        let nDays;
+        if (this.month >= 0 && this.month <= 5) {
+            nDays = 31;
+        } else if (this.month >= 6 && this.month <= 10) {
+            nDays = 30;
+        } else {
+            nDays = 29;
+        }
+        let startDay = new Date(this.year, this.month, 1).getDate();
         this.daysList = [];
         for (let i = 0; i < startDay - 1; i++) {
             this.daysList.push(0);
@@ -134,7 +139,7 @@ class DatePicker {
         this.daysDiv.innerHTML = '';
         for (let d of this.daysList) {
             let b = document.createElement('a');
-            if (this.month == today.getMonth() && d == today.getDate() && this.year == today.getFullYear()) {
+            if (this.month == today.month() && d == today.date() && this.year == today.year()) {
                 b.style.border = '2px solid #6200ed';
                 console.log(d);
             }
