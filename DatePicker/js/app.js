@@ -24,9 +24,11 @@ class DatePicker {
                 <span>ج</span>
             </div>
             <div class="sp-cal-days"></div>
+            <a class="go-today">برو به امروز</a>
            `;
         this.calernder.innerHTML = template;
         this.daysDiv = this.calernder.getElementsByClassName('sp-cal-days')[0];
+        this.goToday = this.calernder.getElementsByClassName('go-today')[0];
         this.daysList = [];
         this.isCalenderVisible = false;
         moment.locale('fa');
@@ -37,9 +39,41 @@ class DatePicker {
         this.markedDay = 0;
         this.markedMonth = 0;
         this.markedYear = 0;
+        this.mouseX = 0;
+        this.mouseY = 0;
+
 
         this.root.addEventListener('focus', e => {
             this.showCalender();
+        })
+
+        document.addEventListener('click', e => {
+            if (this.isCalenderVisible) {
+                this.mouseX = e.clientX;
+                this.mouseY = e.clientY;
+                let rect = this.calernder.getBoundingClientRect();
+                if (this.mouseX > rect.left && this.mouseX < rect.right)
+                    if (this.mouseY > rect.top && this.mouseY < rect.bottom)
+                        return;
+                this.hideCalender();
+            }
+        })
+
+        this.goToday.addEventListener('click', e => {
+            let goDay = new moment();
+            this.today = goDay.date();
+            this.month = goDay.month();
+            this.year = goDay.year();
+            this.markedDay = goDay.date();
+            this.markedMonth = goDay.month;
+            this.markedYear = goDay.year;
+            let d = String(goDay.date());
+            let m = String(goDay.month() + 1);
+            let y = String(goDay.year());
+            if (d.length == 1) d = '0' + d;
+            if (m.length == 1) m = '0' + m;
+            this.root.value = `${y}/${m}/${d}`;
+            this.hideCalender();
         })
 
         this.daysDiv.addEventListener('click', e => {
@@ -48,7 +82,7 @@ class DatePicker {
             let dHeight = bRect.height / nRows;
             let dWidth = bRect.width / 7;
             let yIndex = Math.floor((e.clientY - bRect.top) / dHeight);
-            let xIndex = Math.floor((e.clientX - bRect.left) / dWidth);
+            let xIndex = Math.floor((-e.clientX + bRect.right) / dWidth);
             let day = this.daysList[yIndex * 7 + xIndex];
             if (day) {
                 this.markedDay = day;
@@ -59,7 +93,7 @@ class DatePicker {
                 let y = String(this.year);
                 if (d.length == 1) d = '0' + d;
                 if (m.length == 1) m = '0' + m;
-                this.root.value = `${d}/${m}/${y}`;
+                this.root.value = `${y}/${m}/${d}`;
                 this.hideCalender();
             }
         });
@@ -89,6 +123,15 @@ class DatePicker {
             this.year++;
             this.renderCalender();
         });
+    }
+
+    getFirstWeekDayOfMonth() {
+        let m = moment();
+        m.locale('fa');
+        m.year(this.year);
+        m.month(this.month);
+        m.date(this.today);
+        return m.startOf('month').weekday()
     }
 
     showCalender() {
@@ -133,7 +176,7 @@ class DatePicker {
         for (let i = 0; i < startDay - 1; i++) {
             this.daysList.push(0);
         }
-        for (let i = 0; i <= nDays; i++) {
+        for (let i = -this.getFirstWeekDayOfMonth() + 1; i <= nDays; i++) {
             this.daysList.push(i);
         }
         this.daysDiv.innerHTML = '';
@@ -149,6 +192,9 @@ class DatePicker {
                     b.style.backgroundColor = '#6200ed';
                     b.style.color = '#fff';
                 }
+            }
+            if (d <= 0) {
+                b.style.visibility = "hidden"
             }
             b.innerText = d === 0 ? '' : `${d}`;
             this.daysDiv.appendChild(b);

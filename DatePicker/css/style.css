@@ -103,6 +103,7 @@ body, html {
   width: 38px;
   height: 38px;
   padding: 7px 4px;
+  margin: 1px;
   font-size: 14px;
   line-height: 25px;
   border-radius: 50%;
@@ -113,6 +114,22 @@ body, html {
 }
 .calendar .sp-cal-days a:hover {
   background-color: #6200ee;
+  color: #fff;
+}
+.calendar .go-today {
+  width: 100%;
+  margin-top: 10px;
+  padding: 3px;
+  border-radius: 2px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  color: #6200ed;
+  border: 1px solid #6200ed;
+}
+.calendar .go-today:hover, .calendar .go-today:focus {
+  box-shadow: inset 0 -3.25em 0 0 #6200ed;
+  transition: 0.5s;
   color: #fff;
 }
 
