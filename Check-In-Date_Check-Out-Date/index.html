@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Check-In Date Check-Out Date</title>
+    <link rel="icon" href="css/check-in-check-out-icon-18.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<section>
+    <div class="card card-primary">
+        <div class="card-header"><h4>تاریخ ورود & تاریخ خروج</h4></div>
+
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="frist_name">تاریخ و ساعت ورود</label>
+                        <input id="frist_name" type="datetime-local" class="form-control" name="frist_name" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">تاریخ و ساعت خروج</label>
+                        <input id="last_name" type="datetime-local" class="form-control" name="last_name">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                        ثبت
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card card-primary">
+        <div class="card-header"><h4>لیست</h4></div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>تاریخ ورود</th>
+                        <th>تاریخ خروج</th>
+                        <th>عملیات</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn-danger" title="حذف" id="remove"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
