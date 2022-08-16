@@ -171,7 +171,8 @@ section {
 .table-responsive {
   display: block;
   width: 100%;
-  overflow-x: auto;
+  max-height: 290px;
+  overflow-y: auto;
 }
 .table-responsive .table {
   width: 100%;
@@ -179,7 +180,10 @@ section {
   background-color: transparent;
   border-collapse: collapse;
 }
-.table-responsive .table th {
+.table-responsive .table tr {
+  border-bottom: 1px solid #f1f1f1;
+}
+.table-responsive .table tr th {
   padding: 0 25px;
   height: 60px;
   vertical-align: middle;
@@ -188,7 +192,7 @@ section {
   color: #666;
   text-align: right;
 }
-.table-responsive .table td {
+.table-responsive .table tr td {
   padding: 0 25px;
   height: 60px;
   vertical-align: middle;
@@ -196,6 +200,53 @@ section {
 
 .p-0 {
   padding: 0 !important;
+}
+
+.alert {
+  width: 50%;
+}
+.alert .alert-danger {
+  cursor: pointer;
+  box-shadow: 0 2px 6px #fd9b96;
+  background-color: #fc544b;
+  border-color: #fc544b;
+  color: #fff;
+  line-height: 25px;
+  font-size: 12px;
+  min-width: 35px;
+  min-height: 35px;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  letter-spacing: 0.5px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+::-webkit-scrollbar {
+  position: relative;
+  top: 0px;
+  float: right;
+  width: 6px;
+  height: 170px;
+  background-color: rgb(66, 66, 66);
+  border: 1px solid rgb(255, 255, 255);
+  background-clip: padding-box;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0px -1px 13px #fff;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6777ef;
+  border-radius: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */
