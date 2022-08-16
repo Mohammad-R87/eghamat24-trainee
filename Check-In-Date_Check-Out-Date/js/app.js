@@ -5,10 +5,12 @@ let data = (localStorage.getItem('Arrivals_And_Departures')) ? JSON.parse(localS
 // Variables
 let Record = [];
 let submit = document.getElementById('add');
+let clear = document.getElementById('clear');
 let removeIcon = `<i class="fas fa-trash"></i>`;
 
 // for (let i = 0; i <= 1000; i++) {
-//     let value = data.Arrivals_And_Departures.push(i);
+//     let value = data.Arrivals_And_Departures.push(["2022-08-16T10:40", "2022-08-17T10:40"]);
+//     dataObjectUpdated();
 //     addRecordToDOM(value);
 // }
 
@@ -33,6 +35,8 @@ submit.addEventListener('click', e => {
     entryDate.value = "";
     exitDate.value = "";
 })
+
+// clear.addEventListener('click', e => clearAll());
 
 // Logical Program
 function renderRecord() {
@@ -77,6 +81,7 @@ function removeRecord() {
     let parent = record.parentNode;
     let id = parent.id;
     let value = record.innerText;
+    console.log(value);
 
     if (id === 'tbody') {
         data.Arrivals_And_Departures.splice(data.Arrivals_And_Departures.indexOf(value), 1);
@@ -84,4 +89,9 @@ function removeRecord() {
     dataObjectUpdated();
     parent.removeChild(record);
 }
+
+// function clearAll() {
+//     localStorage.clear()
+//     dataObjectUpdated();
+// }
 
