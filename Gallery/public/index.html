@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/vue-easy-lightbox@next/dist/vue-easy-lightbox.umd.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div v-for="(src, index) in imgs" :key="index" class="pic" @click="() => showImg(index)">
+            <img :src="src" />
+        </div>
+    </div>
+    <vue-easy-lightbox :visible="visibleRef" :imgs="imgs" :index="indexRef" @hide="onHide"></vue-easy-lightbox>
+</div>
+<script>
+    const { ref } = Vue
+    const app = Vue.createApp({
+        setup() {
+            const visibleRef = ref(false)
+            const indexRef = ref(0)
+            const imgs = [
+                'https://4kwallpapers.com/images/walls/thumbs_2t/8481.jpeg',
+                'https://4kwallpapers.com/images/walls/thumbs_2t/8423.jpg',
+                'https://4kwallpapers.com/images/walls/thumbs_2t/8444.jpg',
+            ]
+            const showImg = (index) => {
+                indexRef.value = index
+                visibleRef.value = true
+            }
+            const onHide = () => visibleRef.value = false
+            return {
+                visibleRef,
+                indexRef,
+                imgs,
+                showImg,
+                onHide
+            }
+        }
+    })
+    // Registering VueEasyLightbox for your VueApp.
+    app.use(VueEasyLightbox)
+    app.mount('#app')
+</script>
+</body>
+</html>
