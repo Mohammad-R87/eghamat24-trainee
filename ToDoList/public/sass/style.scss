@@ -1,0 +1,156 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito";
+  font-size: 14px;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+ul {
+  list-style: none;
+}
+
+nav {
+  padding: 20px;
+
+  i {
+    font-size: 25px;
+  }
+
+  .router {
+    a {
+      border: 2px solid #6777ef;
+      border-radius: 3px;
+      color: #6c757d;
+      padding: 5px 20px;
+      margin-right: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .router-link-active, .router-link-exact-active {
+      background-color: #6777ef !important;
+      color: #fff;
+    }
+  }
+}
+
+.item {
+  border-radius: 3px;
+  cursor: default;
+}
+
+.border-success {
+  border-left: 5px solid #22C55EFF;
+}
+
+.border-danger {
+  border-left: 5px solid #fc544b !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+#error {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #fc544b;
+  box-shadow: 0 6px 10px #fd9b96;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 16px 30px;
+  position: fixed;
+  z-index: 1;
+  right: 30px;
+  bottom: 20px;
+  font-size: 16px;
+}
+
+#success {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #63ed7a;
+  box-shadow: 0 6px 10px #a8f5b4;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 16px 30px;
+  position: fixed;
+  z-index: 1;
+  right: 30px;
+  bottom: 20px;
+  font-size: 16px;
+}
+
+
+#error.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+
+  i {
+    font-size: 20px;
+  }
+}
+
+#success.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+
+  i {
+    font-size: 20px;
+  }
+}
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 20px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 20px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 20px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 20px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
