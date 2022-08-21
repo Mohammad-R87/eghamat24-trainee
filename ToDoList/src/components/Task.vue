@@ -1,6 +1,8 @@
 <template>
-  <div :class="Condition[1]" class="d-flex align-items-center justify-content-between list-group-item-action mt-2 p-1 border-success border-danger item">
-    <p @click="$emit('changeCondition')" :class="Condition[0]" class="d-flex align-items-center justify-content-center m-0 p-3">
+  <div @click="$emit('change-condition')" :class="Condition[1]"
+       class="border-danger d-flex align-items-center justify-content-between list-group-item-action mt-2 p-1 item task_animation">
+    <p :class="Condition[0]"
+       class="d-flex align-items-center justify-content-center m-0 p-3">
       {{ input }}
     </p>
     <div class="d-flex align-items-center">

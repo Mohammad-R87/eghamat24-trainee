@@ -1,32 +1,38 @@
 <template>
   <div class="container-fluid mt-5">
-    <div class="col-12 col-sm-8 col-md-6 offset-md-3 col-lg-5 offset-lg-2 col-xl-6 offset-xl-3">
-      <div class="card card-primary">
+    <div class="col-12 col-sm-8 col-md-6 offset-md-3 col-lg-5 offset-lg-2 col-xl-8 offset-xl-3 d-flex">
+      <div class="card card-primary col-xl-9">
         <div class="card-header justify-content-between">
-          <h4>List Tasks</h4>
+          <h4>{{ filter }} Tasks</h4>
           <div class="d-flex align-items-center">
             <ul class="d-flex align-items-center m-0">
-              <li class="badge badge-primary mr-2 pointer"><i class="fa-solid fa-angle-left"></i></li>
+              <li class="text-primary mr-4 pointer"><i class="fa-solid fa-angle-left"></i></li>
               <li class="text-primary">2022/08/19</li>
-              <li class="badge badge-primary ml-2 pointer"><i class="fa-solid fa-angle-right"></i></li>
+              <li class="text-primary ml-4 pointer"><i class="fa-solid fa-angle-right"></i></li>
             </ul>
-            <div class="custom-control custom-checkbox mx-3">
-              <input type="checkbox" class="custom-control-input" id="checkbox" />
-              <label class="custom-control-label" for="checkbox">Done</label>
-            </div>
           </div>
         </div>
         <div class="card-body">
           <Task
-              v-for="(Task , index) in tasks"
-              :key="Task.id"
-              :input="Task.text[1]"
+              v-for="(task , index) in tasks"
+              :key="task.id"
+              :input="task.text"
               @showFunc="tasks.splice(index , 1)"
-              @changeCondition="Task.condition = !Task.condition"
-              @edit="task_edit.index = Task.id , task_edit.select_task_for_edit = true , input.value = Task.text"
-              :Condition="[{'line-through': !Task.condition} , {'border-green-500': !Task.condition}]"
-              v-show="filter === 'all' ? true : (filter === 'done' ? !Task.condition : Task.condition)"
+              @change-condition="task.condition = !task.condition"
+              :Condition="[{'disabled': !task.condition} , {'border-success': !task.condition}]"
+              v-show="filter === 'All' ? true : (filter === 'Done' ? !task.condition : task.condition)"
           />
+        </div>
+      </div>
+      <div class="card card-primary h-100 col-xl-2 mx-3">
+        <div class="card-header text-center"><h4>Filtering</h4></div>
+        <div class="card-body py-3">
+          <ul :class="{'All' : filter === 'All', 'Done' : filter === 'Done', 'UnDone' : filter === 'UnDone'}"
+              class="position-relative">
+            <li @click="filter = 'All'" class="w-100 btn btn-outline-dark my-2">All</li>
+            <li @click="filter = 'Done'" class="w-100 btn btn-outline-success my-2">Done</li>
+            <li @click="filter = 'UnDone'" class="w-100 btn btn-outline-danger my-2">UnDone</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -34,23 +40,33 @@
 </template>
 <script>
 import Task from "@/components/Task";
+import {ref} from "@vue/reactivity";
 
 export default {
-  components: { Task },
-  setup() {
-    const Tasks = [];
-    const tasks = JSON.parse(localStorage.getItem("missions"));
-    console.log(tasks);
+  data() {
+    return {
+      tasks: null,
+      filter: null,
+    };
+  },
 
-    if (tasks !== null) {
-      tasks.forEach((task) => {
-        Tasks.push(task);
+  components: {Task},
+  mounted() {
+    const filter = ref("All");
+
+    let data = (localStorage.getItem('missions')) ? JSON.parse(localStorage.getItem('missions')) : {
+      Tasks: [],
+    }
+    const tasks = [];
+    if (data !== null) {
+      data.Tasks.forEach((task) => {
+        tasks.push(task);
       });
     }
 
-    return {
-      tasks,
-    };
+    this.tasks = tasks;
+    this.filter = filter;
   },
+  emits: ['change-condition']
 };
 </script>

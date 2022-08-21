@@ -45,11 +45,11 @@ nav {
 }
 
 .border-success {
-  border-left: 5px solid #22C55EFF;
+  border-left: 5px solid #22C55EFF !important;
 }
 
 .border-danger {
-  border-left: 5px solid #fc544b !important;
+  border-left: 5px solid #fc544b;
 }
 
 .pointer {
@@ -153,4 +153,25 @@ nav {
     bottom: 0;
     opacity: 0;
   }
+}
+
+.disabled {
+  text-decoration: line-through;
+}
+
+@keyframes task_animation {
+  0% {
+    transform: scale(.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.task_animation {
+  -webkit-animation: task_animation .2s cubic-bezier(0, 0, .2, 1) forwards;
+  animation: task_animation .2s cubic-bezier(0, 0, .2, 1) forwards;
 }

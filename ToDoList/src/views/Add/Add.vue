@@ -8,11 +8,11 @@
         <div class="card-body">
           <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" class="form-control" ref="title" />
+            <input type="text" name="title" id="title" class="form-control" ref="title"/>
           </div>
           <div class="form-group">
             <label for="due-date">Due Date</label>
-            <input type="date" name="due-date" id="due-date" class="form-control" ref="date" />
+            <input type="date" name="due-date" id="due-date" class="form-control" ref="date"/>
           </div>
           <div class="form-group mt-5">
             <button @click="Add" value="Add" class="btn btn-primary btn-lg btn-block">Add</button>

@@ -4,18 +4,18 @@ import {ref} from "@vue/reactivity";
 export default {
 
     setup() {
-        let Tasks = [];
+        let data = (localStorage.getItem('missions')) ? JSON.parse(localStorage.getItem('missions')) : {
+            Tasks: [],
+        }
         let Task = [];
         const title = ref(null);
         const date = ref(null);
-        const filter = ref("all");
-
 
         function Add() {
             if (title.value.value !== "" && date.value.value !== "") {
                 Task.push(date.value.value, title.value.value);
-                Tasks.push({
-                    id: Tasks.length,
+                data.Tasks.push({
+                    id: data.Tasks.length,
                     text: Task,
                     condition: true,
                     show: true
@@ -32,10 +32,10 @@ export default {
         }
 
         function dataObjectUpdated() {
-            localStorage.setItem('missions', JSON.stringify(Tasks));
+            localStorage.setItem('missions', JSON.stringify(data));
         }
 
-        function toastError(){
+        function toastError() {
             let elm = document.getElementById("error")
             elm.className = "show";
             setTimeout(function () {
@@ -43,7 +43,7 @@ export default {
             }, 3000);
         }
 
-        function toastSuccess(){
+        function toastSuccess() {
             let elm = document.getElementById("success")
             elm.className = "show";
             setTimeout(function () {
@@ -53,7 +53,7 @@ export default {
 
         return {
             Add,
-            Tasks,
+            data,
             Task,
             title,
             date,
