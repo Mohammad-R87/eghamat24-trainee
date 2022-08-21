@@ -16,7 +16,8 @@ export default {
                 Task.push(date.value.value, title.value.value);
                 data.Tasks.push({
                     id: data.Tasks.length,
-                    text: Task,
+                    title: title.value.value,
+                    date: date.value.value,
                     condition: true,
                     show: true
                 })

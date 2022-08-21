@@ -12,11 +12,11 @@
             </ul>
           </div>
         </div>
-        <div class="card-body">
+        <div id="card" class="card-body">
           <Task
               v-for="(task , index) in tasks"
               :key="task.id"
-              :input="task.text[1]"
+              :input="task.title"
               @showFunc="tasks.splice(index , 1)"
               @change-condition="task.condition = !task.condition"
               :Condition="[{'disabled': !task.condition} , {'border-success': !task.condition}]"
@@ -24,14 +24,21 @@
           />
         </div>
       </div>
-      <div class="card card-primary h-100 col-xl-2 mx-3">
-        <div class="card-header text-center"><h4>Filtering</h4></div>
+      <div class="card card-primary col-xl-2 mx-3">
+        <div class="card-header text-center"><h4>Options</h4></div>
         <div class="card-body py-3">
           <ul :class="{'All' : filter === 'All', 'Done' : filter === 'Done', 'UnDone' : filter === 'UnDone'}"
               class="position-relative">
-            <li @click="filter = 'All'" class="w-100 btn btn-outline-dark my-2">All</li>
-            <li @click="filter = 'Done'" class="w-100 btn btn-outline-success my-2">Done</li>
-            <li @click="filter = 'UnDone'" class="w-100 btn btn-outline-danger my-2">UnDone</li>
+            <li id="btn" @click="action" class="w-100 btn btn-outline-info my-2"><i class="fa-solid fa-eye-slash"></i> <span>Hide</span></li>
+            <li @click="filter = 'All'" class="w-100 btn btn-outline-dark my-2"><i class="fa-solid fa-table-list"></i>
+              All
+            </li>
+            <li @click="filter = 'Done'" class="w-100 btn btn-outline-success my-2"><i
+                class="fa-regular fa-circle-check"></i> Done
+            </li>
+            <li @click="filter = 'UnDone'" class="w-100 btn btn-outline-danger my-2"><i class="fa-solid fa-xmark"></i>
+              UnDone
+            </li>
           </ul>
         </div>
       </div>
@@ -44,6 +51,7 @@ import {ref} from "@vue/reactivity";
 import {onUpdated} from "vue";
 
 export default {
+
   data() {
     return {
       tasks: null,
@@ -51,27 +59,65 @@ export default {
     };
   },
 
-  components: {Task},
-  mounted() {
-    const filter = ref("All");
+  components: {
+    Task,
+  },
 
-    let data = (localStorage.getItem('missions')) ? JSON.parse(localStorage.getItem('missions')) : {
-      Tasks: [],
-    }
-    const tasks = [];
-    if (data !== null) {
-      data.Tasks.forEach((task) => {
-        tasks.push(task);
-      });
+  mounted() {
+    moment.locale('en');
+    const filter = ref("All");
+    let tasks = [];
+    let data = localStorage.getItem("missions")
+        ? JSON.parse(localStorage.getItem("missions"))
+        : {
+          Tasks: [],
+        };
+
+    getToDay(data.Tasks);
+
+    function getToDay(Record) {
+      let toDay = new moment().format('YYYY-MM-DD');
+      for (let i = 0; i < Record.length; i++) {
+        if (Record[i].date == toDay) {
+          tasks.push(Record[i]);
+        }
+      }
     }
 
     onUpdated(() => {
-      localStorage.setItem('missions', JSON.stringify(data));
-    })
+      localStorage.setItem("missions", JSON.stringify(data));
+    });
 
     this.tasks = tasks;
     this.filter = filter;
   },
-  emits: ['change-condition']
+
+  setup() {
+    let hidden = false;
+
+    function action() {
+      let card = document.getElementById('card');
+      let btn = document.getElementById('btn');
+
+      hidden = !hidden;
+      if (hidden) {
+        card.classList.add('filter');
+        btn.classList.add('active');
+        btn.querySelector('i.fa-solid').classList.remove('fa-eye-slash');
+        btn.querySelector('i.fa-solid').classList.add('fa-eye');
+        btn.querySelector('span').innerText = "Show";
+      } else {
+        card.classList.remove('filter');
+        btn.classList.remove('active');
+        btn.querySelector('i.fa-solid').classList.remove('fa-eye');
+        btn.querySelector('i.fa-solid').classList.add('fa-eye-slash');
+        btn.querySelector('span').innerText = "Hide";
+      }
+    };
+
+    return {
+      action
+    }
+  }
 };
 </script>

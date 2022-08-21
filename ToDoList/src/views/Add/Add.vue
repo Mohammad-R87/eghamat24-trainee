@@ -15,7 +15,7 @@
             <input type="date" name="due-date" id="due-date" class="form-control" ref="date"/>
           </div>
           <div class="form-group mt-5">
-            <button @click="Add" value="Add" class="btn btn-primary btn-lg btn-block">Add</button>
+            <button @click="Add" value="Add" class="btn btn-primary btn-lg btn-block">ADD</button>
           </div>
         </div>
       </div>

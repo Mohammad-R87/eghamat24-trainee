@@ -162,4 +162,13 @@ nav .router .router-link-active, nav .router .router-link-exact-active {
   animation: task_animation 0.2s cubic-bezier(0, 0, 0.2, 1) forwards;
 }
 
+.scroll {
+  overflow-y: scroll;
+  max-height: 510px;
+}
+
+.filter {
+  filter: blur(2px);
+}
+
 /*# sourceMappingURL=custom.css.map */
