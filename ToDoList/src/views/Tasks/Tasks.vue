@@ -16,7 +16,7 @@
           <Task
               v-for="(task , index) in tasks"
               :key="task.id"
-              :input="task.text"
+              :input="task.text[1]"
               @showFunc="tasks.splice(index , 1)"
               @change-condition="task.condition = !task.condition"
               :Condition="[{'disabled': !task.condition} , {'border-success': !task.condition}]"
@@ -41,6 +41,7 @@
 <script>
 import Task from "@/components/Task";
 import {ref} from "@vue/reactivity";
+import {onUpdated} from "vue";
 
 export default {
   data() {
@@ -63,6 +64,10 @@ export default {
         tasks.push(task);
       });
     }
+
+    onUpdated(() => {
+      localStorage.setItem('missions', JSON.stringify(data));
+    })
 
     this.tasks = tasks;
     this.filter = filter;
