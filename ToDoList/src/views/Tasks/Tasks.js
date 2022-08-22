@@ -15,6 +15,8 @@ export default {
     },
 
     mounted() {
+        let nowSFC = this;
+
         moment.locale('en');
         let date = new moment();
         let year = date.year();
@@ -47,7 +49,6 @@ export default {
             }
             render(data.Tasks);
         })
-
         function render(Record) {
             let cap = document.getElementsByClassName('cap')[0];
             let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -55,11 +56,13 @@ export default {
             let d = String(day);
             let m = String(month + 1);
             let y = String(year);
+            console.log(d,m,y);
             let toDay = `${y}-0${m}-${d}`;
-            tasks = [];
+            nowSFC.tasks = [];
             for (let i = 0; i < Record.length; i++) {
+                console.log('check date:',Record[i].date , toDay,Record[i].date == toDay);
                 if (Record[i].date == toDay) {
-                    tasks.push(Record[i]);
+                    nowSFC.tasks.push(Record[i]);
                     console.log(tasks);
                 } else {
                     console.log("error");
