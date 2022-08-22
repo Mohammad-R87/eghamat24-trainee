@@ -171,4 +171,8 @@ nav .router .router-link-active, nav .router .router-link-exact-active {
   filter: blur(2px);
 }
 
+.card .card-header .btn:not(.note-btn) {
+  border-radius: 0.25rem !important;
+}
+
 /*# sourceMappingURL=custom.css.map */

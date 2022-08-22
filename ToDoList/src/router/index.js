@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Tasks from '../views/Tasks/Tasks.vue'
 import Add from '../views/Add/Add.vue'
+import NotFound from '../components/NotFound'
 
 const routes = [
   {
@@ -12,7 +13,12 @@ const routes = [
     path: '/new',
     name: 'AddTask',
     component: Add
-  }
+  },
+  // {
+  //   path: "*",
+  //   name: 'NotFound',
+  //   component: NotFound
+  // }
 ]
 
 const router = createRouter({

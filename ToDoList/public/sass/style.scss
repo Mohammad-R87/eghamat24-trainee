@@ -184,3 +184,7 @@ nav {
 .filter {
   filter: blur(2px);
 }
+
+.card .card-header .btn:not(.note-btn) {
+  border-radius: 0.25rem!important;
+}
