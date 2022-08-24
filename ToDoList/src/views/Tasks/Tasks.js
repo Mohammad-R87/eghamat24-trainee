@@ -21,6 +21,7 @@ export default {
         let month = date.month();
         let day = date.date();
         const filter = ref("All");
+        let nowSFC = this;
         let tasks = [];
         let data = localStorage.getItem("missions") ? JSON.parse(localStorage.getItem("missions")) : {
             Tasks: [],
@@ -56,13 +57,10 @@ export default {
             let m = String(month + 1);
             let y = String(year);
             let toDay = `${y}-0${m}-${d}`;
-            tasks = [];
+            nowSFC.tasks = [];
             for (let i = 0; i < Record.length; i++) {
                 if (Record[i].date == toDay) {
-                    tasks.push(Record[i]);
-                    console.log(tasks);
-                } else {
-                    console.log("error");
+                    nowSFC.tasks.push(Record[i]);
                 }
             }
         }

@@ -14,11 +14,11 @@ const routes = [
     name: 'AddTask',
     component: Add
   },
-  // {
-  //   path: "*",
-  //   name: 'NotFound',
-  //   component: NotFound
-  // }
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound
+  }
 ]
 
 const router = createRouter({
