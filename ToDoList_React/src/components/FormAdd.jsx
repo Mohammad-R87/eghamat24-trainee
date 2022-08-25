@@ -1,9 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 
-function Add(props) {
-    const [inputTitle, setTitle] = useState(props.edit ? props.edit.value : '');
-    const [inputDate, setDate] = useState(props.edit ? props.edit.value : '');
-
+function Add({setItem, item, onSubmit}) {
     let titleRef = useRef();
     let dateRef = useRef();
 
@@ -11,25 +8,15 @@ function Add(props) {
         titleRef.current.focus();
     })
 
-    const handelChangeTitle = e => {
-        setTitle(e.target.value);
-    }
-
-    const handelChangeDate = e => {
-        setDate(e.target.value)
-    }
-
-    const handelSubmit = e => {
-        e.preventDefault();
-
-        props.onSubmit({
-            id: Date.now(),
-            title: inputTitle,
-            date: inputDate,
-            isComplete: false
+    const handelChange = e => {
+        setItem((prev) => {
+            return {
+                id: Date.now(),
+                title: titleRef.current.value,
+                date: dateRef.current.value,
+                isComplete: prev.isComplete
+            }
         });
-        setTitle('');
-        setDate('');
     }
 
     return <>
@@ -39,20 +26,20 @@ function Add(props) {
                     <div className="card-header">
                         <h4>Add New Task</h4>
                     </div>
-                    <form onSubmit={handelSubmit}>
+                    <form onChange={handelChange}>
                         <div className="card-body">
                             <div className="form-group">
                                 <label htmlFor="title">Title</label>
-                                <input onChange={handelChangeTitle} value={inputTitle} ref={titleRef} type="text"
+                                <input ref={titleRef} type="text"
                                        name="title" id="title" className="form-control"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="due-date">Due Date</label>
-                                <input onChange={handelChangeDate} value={inputDate} ref={dateRef} type="date"
+                                <input ref={dateRef} type="date"
                                        name="due-date" id="due-date" className="form-control"/>
                             </div>
                             <div className="form-group mt-5">
-                                <button type="submit" onClick={handelSubmit}
+                                <button type="submit" onClick={onSubmit}
                                         className="btn btn-primary btn-lg btn-block">ADD
                                 </button>
                             </div>
