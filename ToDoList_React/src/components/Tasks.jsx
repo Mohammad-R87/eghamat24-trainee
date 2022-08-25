@@ -3,6 +3,31 @@ import Task from './Task';
 
 function Tasks(props) {
 
+    function allCount() {
+        let sum = props.tasks.length;
+        return sum;
+    }
+
+    function doneCount() {
+        let sum = 0;
+        for (let i = 0; i < props.tasks.length; i++) {
+            if (props.tasks[i].isComplete == true) {
+                sum++;
+            }
+        }
+        return sum;
+    }
+
+    function unDoneCount() {
+        let sum = 0;
+        for (let i = 0; i < props.tasks.length; i++) {
+            if (props.tasks[i].isComplete == false) {
+                sum++;
+            }
+        }
+        return sum;
+    }
+
     return <>
         <div className="container-fluid mt-4">
             <div className="col-12 col-sm-8 col-md-6 offset-md-3 col-lg-5 offset-lg-2 col-xl-8 offset-xl-3 d-flex">
@@ -11,10 +36,12 @@ function Tasks(props) {
                         <h4>List Tasks</h4>
                         <div className="d-flex align-items-center">
                             <ul className="d-flex align-items-center m-0 sp-cal-title">
-                                <li className="text-primary mr-4 pointer"><i className="fa-solid fa-angle-left"></i>
+                                <li onClick={props.handelDayIncrement} className="text-primary mr-4 pointer"><i
+                                    className="fa-solid fa-angle-left"></i>
                                 </li>
-                                <span className="text-primary cap">2022-08-25</span>
-                                <li className="text-primary ml-4 pointer"><i className="fa-solid fa-angle-right"></i>
+                                <span className="text-primary cap"></span>
+                                <li onClick={props.handelDayDecrement} className="text-primary ml-4 pointer"><i
+                                    className="fa-solid fa-angle-right"></i>
                                 </li>
                             </ul>
                         </div>
@@ -25,18 +52,18 @@ function Tasks(props) {
                     <div className="card-footer d-flex align-items-center justify-content-between">
                         <div>
                         <span className="mr-5 text-primary">
-                            <i className="fa-solid fa-table-list"></i> All: 5
+                            <i className="fa-solid fa-table-list"></i> <strong>All: {allCount()}</strong>
                         </span>
                             <span className="mr-5 text-success">
-                            <i className="fa-regular fa-circle-check"></i> Done: 3
+                            <i className="fa-regular fa-circle-check"></i> <strong>Done: {doneCount()}</strong>
                         </span>
                             <span className="mr-5 text-danger">
-                            <i className="fa-solid fa-xmark"></i> UnDone: 2
+                            <i className="fa-solid fa-xmark"></i> <strong>UnDone: {unDoneCount()}</strong>
                         </span>
                         </div>
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="check" />
-                            <label for="check" className="custom-control-label">Done</label>
+                            <input type="checkbox" className="custom-control-input" id="check"/>
+                            <label htmlFor="check" className="custom-control-label">Done</label>
                         </div>
                     </div>
                 </div>
