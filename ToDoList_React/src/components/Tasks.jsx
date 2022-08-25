@@ -1,8 +1,32 @@
-import React, {useState} from 'react';
+// IMPORT PACKAGE
+import React, {useState, useEffect} from 'react';
+// IMPORT COMPONENT
 import Task from './Task';
 
+// RUN TASKS
 function Tasks(props) {
+    let [checked, setChecked] = useState(false);
+    let [items, setItems] = useState([]);
 
+    useEffect(() => {
+        handelChange();
+    }, [])
+
+
+    function handelChange() {
+        checked = !checked;
+        setChecked(checked);
+        items = [];
+        setItems(items);
+
+        for (let i = 0; i < props.tasks.length; i++) {
+            if (props.tasks[i].isComplete == checked) {
+                items.push(props.tasks[i]);
+            }
+        }
+    }
+
+    // ALL FUNCTION COUNTER
     function allCount() {
         let sum = props.tasks.length;
         return sum;
@@ -28,6 +52,7 @@ function Tasks(props) {
         return sum;
     }
 
+    // UI TASKS
     return <>
         <div className="container-fluid mt-4">
             <div className="col-12 col-sm-8 col-md-6 offset-md-3 col-lg-5 offset-lg-2 col-xl-8 offset-xl-3 d-flex">
@@ -47,7 +72,7 @@ function Tasks(props) {
                         </div>
                     </div>
                     <div id="card" className="card-body scroll">
-                        <Task tasks={props.tasks} completeTask={props.completeTask} removeTask={props.removeTask}/>
+                        <Task tasks={items} completeTask={props.completeTask} removeTask={props.removeTask}/>
                     </div>
                     <div className="card-footer d-flex align-items-center justify-content-between">
                         <div>
@@ -62,7 +87,8 @@ function Tasks(props) {
                         </span>
                         </div>
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="check"/>
+                            <input type="checkbox" checked={checked} onChange={handelChange}
+                                   className="custom-control-input" id="check"/>
                             <label htmlFor="check" className="custom-control-label">Done</label>
                         </div>
                     </div>

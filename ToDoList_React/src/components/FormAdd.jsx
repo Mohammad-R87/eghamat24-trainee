@@ -16,7 +16,7 @@ function Add({setItem, item, onSubmit}) {
                 date: dateRef.current.value,
                 isComplete: prev.isComplete
             }
-        });
+        })
     }
 
     return <>

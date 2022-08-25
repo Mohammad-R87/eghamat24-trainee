@@ -52,12 +52,10 @@ export default {
         function render(Record) {
             let cap = document.getElementsByClassName('cap')[0];
             let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            cap.innerText = `${months[month]}, ${day}`;
             let d = String(day);
             let m = String(month + 1);
             let y = String(year);
             let toDay = `${y}-0${m}-${d}`;
-            nowSFC.tasks = [];
             for (let i = 0; i < Record.length; i++) {
                 if (Record[i].date == toDay) {
                     nowSFC.tasks.push(Record[i]);
