@@ -1,21 +1,9 @@
-import {css, unsafeCSS} from "lit";
-
-export const custom = css`
-* * {
-  text-decoration: none;
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Nunito";
   font-size: 14px;
-}
-
-body {
-    background-color: #fafdfb;
-    font-size: 14px;
-    font-weight: 400;
-    font-family: 'Nunito', 'Segoe UI', arial;
-    color: #6c757d;
 }
 
 a {
@@ -32,8 +20,7 @@ nav {
 nav i {
   font-size: 25px;
 }
-nav .router app-link {
-  text-decoration: none;
+nav .router a {
   border: 2px solid #6777ef;
   border-radius: 3px;
   color: #6c757d;
@@ -190,7 +177,3 @@ nav .router .router-link-active, nav .router .router-link-exact-active {
 
 
 /*# sourceMappingURL=custom.css.map */
-
-`
-
-;

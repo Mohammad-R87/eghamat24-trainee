@@ -4,10 +4,19 @@ import {bootstrap} from '../assets/js/bootstrap';
 import {style} from '../assets/js/style.js';
 import {custom} from '../assets/js/custom.js';
 
+const get_tasks = () => {
+    const data = localStorage.getItem('missions')
+    if (data) {
+        return JSON.parse(data);
+    } else {
+        return [];
+    }
+}
+
 class ListTasks extends LitElement {
     static properties = {
         listTasks: {type: Array},
-        filter: {type: String},
+        filter: {type: Boolean},
         isHide: {type: Boolean},
     };
 
@@ -15,14 +24,14 @@ class ListTasks extends LitElement {
 
     constructor() {
         super();
-        this.listTasks = [];
-        this.filter = 'all';
-        this.isHide = false;
+        this.listTasks = JSON.parse(localStorage.getItem('missions')) || [];
+        // this.filter = false;
+        this.isHide = true;
     };
 
     render() {
         const TODO_CASES = {
-            undone: this.listTasks.filter(item => !item.completed), done: this.listTasks.filter(item => item.completed),
+            false: this.listTasks.filter(item => !item.completed),
         };
         const TODO_DEFAULT_CASE = this.listTasks;
         const tasks = TODO_CASES[this.filter] || TODO_DEFAULT_CASE;
@@ -40,10 +49,10 @@ class ListTasks extends LitElement {
                                     <li class="text-primary ml-4 pointer"><i class="fa-solid fa-angle-right"></i></li>
                                 </ul>
                                 <button @click=${this._hideHandler} class="btn btn-outline-primary ml-4"><i
-                                        class="fa-solid fa-eye-slash"></i> <span>Hide</span></button>
+                                        class="fa-solid fa-eye-slash"></i> <span>Hide & Show</span></button>
                             </div>
                         </div>
-                        <div id="card" class=${this.isHide ? 'cord-body' : 'cord-body filter'}>
+                        <div id="card" class=${this.isHide ? 'card-body' : 'card-body filter'}>
                             ${tasks.map(item => html`
                                 <div class=${item.completed ? 'border-success d-flex align-items-center justify-content-between list-group-item-action mt-2 p-1 item task_animation' : 'border-danger d-flex align-items-center justify-content-between list-group-item-action mt-2 p-1 item task_animation'}>
                                     <strong @click=${() => this._completed(item)}
@@ -57,24 +66,19 @@ class ListTasks extends LitElement {
                                 </div>
                             `)}
                         </div>
-                    </div>
-                    <div class="card card-primary h-100 col-xl-2 mx-3">
-                        <div class="card-header text-center"><h4>Filtering</h4></div>
-                        <div class="card-body py-3">
-                            <ul @click=${this._clickHandler} class="position-relative">
-                                <button name="all" class="w-100 btn btn-outline-dark my-2 active">
-                                    <i class="fa-solid fa-table-list"></i>
-                                    All
-                                </button>
-                                <button name="done" class="w-100 btn btn-outline-success my-2">
-                                    <i class="fa-regular fa-circle-check"></i>
-                                    Done
-                                </button>
-                                <button name="undone" class="w-100 btn btn-outline-danger my-2">
-                                    <i class="fa-solid fa-xmark"></i>
-                                    UnDone
-                                </button>
-                            </ul>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div>
+                                <span class="mr-5 text-primary"> <i
+                                        class="fa-solid fa-table-list"></i> <strong>All: ${this._allCount(this.listTasks)}</strong> </span>
+                                <span class="mr-5 text-success"> <i class="fa-regular fa-circle-check"></i> <strong>Done: ${this._doneCount(this.listTasks)}</strong> </span>
+                                <span class="mr-5 text-danger"> <i
+                                        class="fa-solid fa-xmark"></i> <strong>UnDone: ${this._unDoneCount(this.listTasks)}</strong> </span>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" @click=${this._clickHandler} name="all"
+                                       class="custom-control-input lg" id="check"/>
+                                <label for="check" class="custom-control-label">Done</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,18 +104,37 @@ class ListTasks extends LitElement {
     }
 
     _clickHandler(e) {
-        if (e.target !== e.currentTarget) {
-            this.filter = e.target.name;
-
-            const buttons = this.renderRoot.querySelectorAll('button[name]');
-            buttons.forEach(button => button.classList.remove('active'));
-            e.target.classList.add('active');
-        }
+        this.filter = !this.filter;
     }
 
     _hideHandler(e) {
         this.isHide = !this.isHide;
         window.localStorage.setItem('isHide', this.isHide);
+    }
+
+    _allCount(tasks) {
+        let sum = tasks.length;
+        return sum;
+    }
+
+    _doneCount(tasks) {
+        let sum = 0;
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].completed == true) {
+                sum++;
+            }
+        }
+        return sum;
+    }
+
+    _unDoneCount(tasks) {
+        let sum = 0;
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].completed == false) {
+                sum++;
+            }
+        }
+        return sum;
     }
 }
 

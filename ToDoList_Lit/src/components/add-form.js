@@ -1,8 +1,18 @@
-import { LitElement, html } from "lit";
+import {LitElement, html} from "lit";
 
-import { bootstrap } from "../assets/js/bootstrap.js";
-import { style } from "../assets/js/style.js";
-import { custom } from "../assets/js/custom.js";
+import {bootstrap} from "../assets/js/bootstrap.js";
+import {style} from "../assets/js/style.js";
+import {custom} from "../assets/js/custom.js";
+
+
+const get_tasks = () => {
+    const data = localStorage.getItem('missions')
+    if (data) {
+        return JSON.parse(data);
+    } else {
+        return [];
+    }
+}
 
 class AddForm extends LitElement {
     static properties = {
@@ -15,7 +25,7 @@ class AddForm extends LitElement {
 
     constructor() {
         super();
-        this.listTasks = [];
+        this.listTasks = get_tasks();
     }
 
     render() {
@@ -30,11 +40,11 @@ class AddForm extends LitElement {
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="title">Title</label>
-                                    <input type="text" name="title" id="title" class="form-control" />
+                                    <input type="text" name="title" id="title" class="form-control"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="date">Due Date</label>
-                                    <input type="date" name="due-date" id="date" class="form-control" />
+                                    <input type="date" name="due-date" id="date" class="form-control"/>
                                 </div>
                                 <div class="form-group mt-5">
                                     <button type="submit" class="btn btn-primary btn-lg btn-block">ADD</button>
@@ -78,6 +88,8 @@ class AddForm extends LitElement {
             this.title.value = "";
             this.date.value = "";
             this._setLocalStorage();
+            const state = { 'page_id': 1, 'user_id': 5 }
+            history.pushState(state, '', '/')
         }
     }
 }
