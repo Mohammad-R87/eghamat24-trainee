@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\SeoController;
+use \App\Http\Controllers\PaginationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +19,5 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::post('/seo-check', [SeoController::class, 'check'])->name('seo-check');
+Route::post('/site-info', [SeoController::class, 'check'])->name('site-info');
+Route::get('/test', [SeoController::class, 'test']);

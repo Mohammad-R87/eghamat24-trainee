@@ -103,50 +103,14 @@
                     <a href="index.html">SS</a>
                 </div>
                 <ul class="sidebar-menu">
-                    <li class="menu-header">Dashboard</li>
-                    <li class="dropdown">
-                        <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-                        <ul class="dropdown-menu">
-                            <li><a class="nav-link" href="index-0.html">General Dashboard</a></li>
-                            <li><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li>
-                        </ul>
+                    <li class="menu-header">داشبورد</li>
+                    <li>
+                        <a href="#" class="nav-link"><i class="fas fa-sort-amount-down"></i>
+                            <span>قواعد عمومی</span></a>
                     </li>
-                    <li class="menu-header">Starter</li>
-                    <li class="dropdown">
-                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
-                            <span>Layout</span></a>
-                        <ul class="dropdown-menu">
-                            <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
-                            <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
-                            <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
-                        </ul>
+                    <li><a class="nav-link" href=""><i class="far fa-clone"></i> <span>عناصر صفحه</span></a>
                     </li>
-                    <li class=active><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
-                        <ul class="dropdown-menu">
-                            <li><a class="nav-link" href="bootstrap-alert.html">Alert</a></li>
-                            <li><a class="nav-link" href="bootstrap-badge.html">Badge</a></li>
-                            <li><a class="nav-link" href="bootstrap-breadcrumb.html">Breadcrumb</a></li>
-                            <li><a class="nav-link" href="bootstrap-buttons.html">Buttons</a></li>
-                            <li><a class="nav-link" href="bootstrap-card.html">Card</a></li>
-                            <li><a class="nav-link" href="bootstrap-carousel.html">Carousel</a></li>
-                            <li><a class="nav-link" href="bootstrap-collapse.html">Collapse</a></li>
-                            <li><a class="nav-link" href="bootstrap-dropdown.html">Dropdown</a></li>
-                            <li><a class="nav-link" href="bootstrap-form.html">Form</a></li>
-                            <li><a class="nav-link" href="bootstrap-list-group.html">List Group</a></li>
-                            <li><a class="nav-link" href="bootstrap-media-object.html">Media Object</a></li>
-                            <li><a class="nav-link" href="bootstrap-modal.html">Modal</a></li>
-                            <li><a class="nav-link" href="bootstrap-nav.html">Nav</a></li>
-                            <li><a class="nav-link" href="bootstrap-navbar.html">Navbar</a></li>
-                            <li><a class="nav-link" href="bootstrap-pagination.html">Pagination</a></li>
-                            <li><a class="nav-link" href="bootstrap-popover.html">Popover</a></li>
-                            <li><a class="nav-link" href="bootstrap-progress.html">Progress</a></li>
-                            <li><a class="nav-link" href="bootstrap-table.html">Table</a></li>
-                            <li><a class="nav-link" href="bootstrap-tooltip.html">Tooltip</a></li>
-                            <li><a class="nav-link" href="bootstrap-typography.html">Typography</a></li>
-                        </ul>
+                    <li><a class="nav-link" href=""><i class="fas fa-link"></i> <span>تمام لینک ها</span></a>
                     </li>
                 </ul>
             </aside>
@@ -164,69 +128,104 @@
                     </div>
                     <div class="section-body">
                         @if($info['title'])
-                            <p class="section-title">{{ $info['title'] }}</p>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <p class="section-title m-0">{{ $info['title'] }}</p>
+                                <span class="badge badge-success text-right my-1">{{ $info['status'] }}</span>
+                            </div>
                         @else
                             <p class="section-title-error">این سایت فاقد عنوان هست</p>
+                            <span class="badge badge-success text-right my-1">{{ $info['status'] }}</span>
                         @endif
                         <hr/>
-                        <div class="card">
-                            <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div id="public" class="card">
+                                <div class="card-header">
+                                    <h4 class="d-inline">قواعد عمومی</h4>
+                                </div>
                                 <div class="card-body">
-                                    <div class="section-title">عناصر صفحه</div>
-                                    <div class="table-responsive">
-                                        <table class="table table-sm">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">ویدیو ها</th>
-                                                <th scope="col">تصاویر</th>
-                                                <th scope="col">استایل</th>
-                                                <th scope="col">جاوا اسکریپت</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <th>{{ count($info['videos']) }}</th>
-                                                <td>{{ count($info['images']) }}</td>
-                                                <td>{{ count($info['styles']) }}</td>
-                                                <td>{{ count($info['scripts']) }}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <ul class="list-unstyled list-unstyled-border">
+                                        <li class="media">
+                                            <div class="media-body">
+                                                @if(!$info['title'])
+                                                    <div class="badge badge-pill badge-danger mb-1 float-right"><i
+                                                            class="fas fa-times"></i></div>
+                                                    <h6 class="media-title">(Title) تگ</h6>
+                                                    <div class="text-small text-muted">وجود ندارد یا فاقد محتوااست Title
+                                                        تگ
+                                                    </div>
+                                                @else
+                                                    @if(!strlen($info['title']) >= 60)
+                                                        <div class="badge badge-pill badge-warning mb-1 float-right"><i
+                                                                class="fas fa-exclamation-triangle"></i></div>
+                                                        <h6 class="media-title">(title) تگ</h6>
+                                                        <div class="text-small text-muted">بیشتر از 60 کارکتر است Title
+                                                            تگ
+                                                        </div>
+                                                    @else
+                                                        <div class="badge badge-pill badge-success mb-1 float-right"><i
+                                                                class="fas fa-check-circle"></i></div>
+                                                        <h6 class="media-title">(Title) تگ</h6>
+                                                        <div class="text-small text-muted">دارای مقدار
+                                                            ({{ $info['title'] }}) است Title تگ
+                                                        </div>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </li>
+                                        <li class="media">
+                                            <div class="media-body">
+                                                @if(!$info['meta-description'])
+                                                    <div class="badge badge-pill badge-danger mb-1 float-right"><i
+                                                            class="fas fa-times"></i></div>
+                                                    <h6 class="media-title">(Meta Description) تگ</h6>
+                                                    <div class="text-small text-muted">وجود ندارد یا فاقد محتوا است Meta
+                                                        Description تگ
+                                                    </div>
+                                                @else
+                                                    @if(strlen($info['meta-description']) >= 150)
+                                                        <div class="badge badge-pill badge-warning mb-1 float-right"><i
+                                                                class="fas fa-exclamation-triangle"></i></div>
+                                                        <h6 class="media-title">(Meta Description) تگ</h6>
+                                                        <div class="text-small text-muted"> وجود دارد ولی بیشتر از 150
+                                                            کارکتر است Meta Description تگ
+                                                        </div>
+                                                    @else
+                                                        <div class="badge badge-pill badge-success mb-1 float-right"><i
+                                                                class="fas fa-check-circle"></i></div>
+                                                        <h6 class="media-title">(Meta Description) تگ</h6>
+                                                        <div class="text-small text-muted">با این مقدار
+                                                            ({{ $info['meta-description'] }}) وجود داردMeta Description
+                                                            تگ
+                                                        </div>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </li>
+                                        <li class="media">
+                                            <div class="media-body">
+                                                @if(!$info['canonical'])
+                                                    <div class="badge badge-pill badge-danger mb-1 float-right"><i
+                                                            class="fas fa-times"></i></div>
+                                                    <h6 class="media-title">(Canonical) تگ</h6>
+                                                    <div class="text-small text-muted">وجود ندارد یا فاقد محتوا است
+                                                        Canonical تگ
+                                                    </div>
+                                                @else
+                                                    <div class="badge badge-pill badge-success mb-1 float-right"><i
+                                                            class="fas fa-check-circle"></i></div>
+                                                    <h6 class="media-title">(Canonical) تگ</h6>
+                                                    <div class="text-small text-muted">دارای مقدار
+                                                        ({{ $info['canonical'] }}) است Colonical تگ
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="col-lg-6"></div>
-                            <div class="col-lg-12">
-                                <div class="section-title">h6 تا h1</div>
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">H1</th>
-                                            <th scope="col">H2</th>
-                                            <th scope="col">H3</th>
-                                            <th scope="col">H4</th>
-                                            <th scope="col">H5</th>
-                                            <th scope="col">H6</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <hr/>
+                        </div><hr/>
                         <div class="col-12">
-                            <div class="card">
+                            <div id="" class="card">
                                 <div class="card-header">
                                     <h4>تمام لینک ها</h4>
                                 </div>
@@ -242,38 +241,11 @@
                                             @foreach($info['links'] as $link)
                                                 <tr>
                                                     <td>{{ $link[0] }}</td>
-                                                    <td><a href="{{ $link[1] }}">{{ $link[1] }}</a></td>
+                                                    <td>{{ $link[1] }}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
                                         </table>
-                                    </div>
-                                    <div class="float-right">
-                                        <nav>
-                                            <ul class="pagination">
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="#" aria-label="Previous">
-                                                        <span aria-hidden="true">«</span>
-                                                        <span class="sr-only">Previous</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item active">
-                                                    <a class="page-link" href="#">1</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#">2</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#">3</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Next">
-                                                        <span aria-hidden="true">»</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
                                     </div>
                                 </div>
                             </div>

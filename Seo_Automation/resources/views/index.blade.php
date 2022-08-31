@@ -25,7 +25,7 @@
                     خطاهای سایت</h5>
                 <div class="aos-init aos-animate">
                     <div class="text-center text-lg-end mt-3">
-                        <form dir="ltr" action="{{ route('seo-check') }}" method="POST" class="form">
+                        <form dir="ltr" action="{{ route('site-info') }}" method="POST" class="form">
                             @csrf
                             <input type="text" name="input-url" placeholder="https://Example.com"
                                    class="form-control input-link text-left">
