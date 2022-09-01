@@ -20,4 +20,3 @@ Route::get('/', function () {
 });
 
 Route::post('/site-info', [SeoController::class, 'check'])->name('site-info');
-Route::get('/test', [SeoController::class, 'test']);

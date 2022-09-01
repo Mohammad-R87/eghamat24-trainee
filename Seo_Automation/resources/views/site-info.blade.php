@@ -223,7 +223,8 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div><hr/>
+                        </div>
+                        <hr/>
                         <div class="col-12">
                             <div id="" class="card">
                                 <div class="card-header">
@@ -236,12 +237,11 @@
                                             <tbody>
                                             <tr>
                                                 <th>متن لینک</th>
-                                                <th>آدرس لینک</th>
+                                                <th>وضعیت درخواست</th>
                                             </tr>
                                             @foreach($info['links'] as $link)
                                                 <tr>
-                                                    <td>{{ $link[0] }}</td>
-                                                    <td>{{ $link[1] }}</td>
+                                                    <td>{{ $link }}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>

@@ -2,46 +2,156 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Url;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
+use \GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use \Symfony\Component\DomCrawler\Crawler;
+use \Symfony\Component\DomCrawler\Link;
+use \Symfony\Component\DomCrawler\Image;
 
-class PaginationController extends Controller
+class SEOController extends Controller
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    public function index()
-    {
-        $myArray = [
-            ['id' => 1, 'title' => 'Laravel CRUD'],
-            ['id' => 2, 'title' => 'Laravel Ajax CRUD'],
-            ['id' => 3, 'title' => 'Laravel CORS Middleware'],
-            ['id' => 4, 'title' => 'Laravel Autocomplete'],
-            ['id' => 5, 'title' => 'Laravel Image Upload'],
-            ['id' => 6, 'title' => 'Laravel Ajax Request'],
-            ['id' => 7, 'title' => 'Laravel Multiple Image Upload'],
-            ['id' => 8, 'title' => 'Laravel Ckeditor'],
-            ['id' => 9, 'title' => 'Laravel Rest API'],
-            ['id' => 10, 'title' => 'Laravel Pagination'],
-        ];
+    //
+    function check(Request $request){
+        // var_dump($request);die();
+        set_time_limit(200);
+        $infos = [];
 
-        $data = $this->paginate($myArray);
-        return view('paginate', compact('data'));
+        $url = $request->input('url');
+        $baseUrl = $url;
+
+        $guzzle = new Client();
+
+        // var_dump($request);die();
+        // $response = $guzzle->request("GET", $url);
+
+        // var_dump($request);
+        // $lastUrl = Url::query()->latest('id')->get()->first();
+        $urls = [$url];
+        // $lastUrl->delete();
+        $checkedUrls = [];
+        $requestMethod = "GET";
+        $i = 0;
+        while($i++<50){
+            $popedUrl = array_pop($urls);
+            info('count',['index'=>$i,'url'=>$popedUrl]);
+
+            if($popedUrl === null) break;
+
+
+            $info = [];
+
+            if($urlRecord = Url::where('path', $popedUrl)->first()){
+
+                $infos[] = $info = [
+                    'url' => $urlRecord->path,
+                    'title' => $urlRecord->title,
+                    'status' => $urlRecord->status,
+                    'meta-description' => $urlRecord->meta_description,
+                    'canonical' => $urlRecord->canonical,
+                    'has-importants' => $urlRecord->has_importants,
+                    'images' => $urlRecord->images->pluck('path')->all(),
+                    'videos' => $urlRecord->videos->pluck('path')->all(),
+                    'links' => $urlRecord->links->pluck('path')->all(),
+                ];
+
+                // echo "<pre>";
+                // print_r($info);
+                // echo "</pre>";
+            }else{
+                // continue;
+                try{
+                    $response = $guzzle->request("GET", $popedUrl);
+                }catch(ClientException $e){
+                    // logger('response', [$response]);
+                }
+                // logger('response', [$response->getBody()->getContents(),$response]);
+                if(!($response ?? null))
+                    continue;
+
+                $infos[] = $info = $this->crawl($response->getBody(), $response->getStatusCode(), $popedUrl);
+                Url::createFromInfo($info);
+            }
+
+            $checkedUrls[$popedUrl] = true;
+
+            foreach($info['links'] as $link){
+                // echo "<p>$link</p>";
+                if( $this->matchDomain($link, $baseUrl) && !($checkedUrls[$link] ?? null))
+                    array_push($urls, $link);
+            }
+
+            // echo "<pre>";
+            // print_r($urls);
+            // echo "</pre>";
+        }
+
+
+        return view('seo', ['infos' => $infos]);
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    public function paginate($items, $perPage = 5, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    function crawl($body, $status, $url){
+        $urlInfo = [];
+
+        $crawl = new Crawler($body, $url);
+
+        $urlInfo['url'] = $url;
+
+        $urlInfo['status'] = $status;
+
+        $urlInfo['links'] = [];
+        foreach($crawl->filter('body a, head link')->links() as $link){
+            $urlInfo['links'][] = $link->getUri();
+        }
+
+        $urlInfo['images'] = [];
+        foreach($crawl->filter('body img')->images() as $image){
+            $urlInfo['images'][] = $image->getUri();
+        }
+
+        // $urlInfo['videos'] = $crawl->filter('body video')->children();
+
+        $urlInfo['videos'] = [];
+        foreach($crawl->filter('body video')->extract(['src']) as $videoSrc){
+            $urlInfo['videos'][] = $videoSrc;
+        }
+
+        $title = $crawl->filter('head > title')->getNode(0) ?? null;
+        // $title = $titles ? $titles : null ;
+        // logger('$title', [$title]);
+        $urlInfo['title'] = $title ? $title->textContent : null;
+        $urlInfo['meta-description'] = $crawl->filter('head > meta[name="description"]')->extract(['content'])[0] ?? null;
+        $urlInfo['canonical'] = $crawl->filter('head link[rel="canonical"]')->extract(['href'])[0] ?? null;
+
+        $urlInfo['has-importants'] = $urlInfo['title'] && $urlInfo['meta-description'] && $urlInfo['canonical'];
+
+        // print_r($urlInfo);
+        // echo "</pre>";
+
+        return $urlInfo;
+    }
+
+    function matchDomain($url, $baseUrl){
+        return $this->getDomain($url) === $this->getDomain($baseUrl);
+    }
+
+    function getDomain($url){
+        // echo "getDomain : $url";
+        $matches = null;
+        $url = preg_replace("/^https:\/\//", "", $url);
+        $url = preg_replace("/^http:\/\//", "", $url);
+        preg_match("/^[^\/]*\.([^\/.]*\.[^.\/]*)/", '.'.$url.'/', $matches);
+
+
+        // logger("url:$url");
+        if(count($matches)<2){
+            // logger('matches', [
+            //     'matches' => $matches,
+            //     'url' => $url,
+            // ]);
+            return false;
+        }
+        return $matches[1];
     }
 }

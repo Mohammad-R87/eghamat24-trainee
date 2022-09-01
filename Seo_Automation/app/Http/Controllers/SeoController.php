@@ -27,8 +27,7 @@ class SeoController extends Controller
 
         $response = $guzzle->request('GET', $url);
         $infos[] = $this->crawl($response->getBody(), $response->getStatusCode(), $url);
-        dd($infos);
-        return view('siteinfo', ['infos' => $infos]);
+        return view('site-info', ['infos' => $infos]);
     }
 
 
