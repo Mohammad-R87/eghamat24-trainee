@@ -17,6 +17,6 @@ use \App\Http\Controllers\PaginationController;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('home');
 
 Route::post('/site-info', [SeoController::class, 'check'])->name('site-info');

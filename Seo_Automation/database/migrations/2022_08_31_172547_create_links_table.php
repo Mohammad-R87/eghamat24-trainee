@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('path');
+            $table->string('http_status_code');
             $table->integer('url_id');
             $table->timestamps();
         });
