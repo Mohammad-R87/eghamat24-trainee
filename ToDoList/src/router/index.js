@@ -1,18 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Tasks from '../views/Tasks/Tasks.vue'
-import Add from '../views/Add/Add.vue'
+
+import Tasks from '../views/Tasks.vue'
+import CreateTask from '../views/CreateTask.vue'
 import NotFound from '../components/NotFound'
 
 const routes = [
   {
     path: '/',
-    name: 'Tasks',
+    name: 'tasks',
     component: Tasks
   },
   {
-    path: '/new',
-    name: 'AddTask',
-    component: Add
+    path: '/create-task',
+    name: 'create',
+    component: CreateTask
   },
   {
     path: '/:catchAll(.*)',

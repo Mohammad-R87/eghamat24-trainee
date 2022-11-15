@@ -7,7 +7,7 @@
       </div>
       <div class="d-flex align-items-center router">
         <router-link to="/">Tasks</router-link>
-        <router-link to="/new">Add</router-link>
+        <router-link to="/create-task">Add</router-link>
       </div>
     </div>
   </nav>
